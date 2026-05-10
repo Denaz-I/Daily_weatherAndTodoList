@@ -11,7 +11,9 @@ function useCoordinates(city) {
     const [coordinates, setCoordinates] = useState(null);
 
     useEffect(() => {
+        if (!city || city.length < 3) return;
         fetchCoordinatesApi(city)
+        .then (data => setCoordinates(data.results[0]));
     }, [city]);
 
     return coordinates;

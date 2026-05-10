@@ -4,20 +4,37 @@ import SearchBar from './components/SearchBar'
 import useCoordinates from './hooks/useCoordinates'
 import useWeather from './hooks/useWeather'
 
-import {usestate} from 'react'
+import {useState, useEffect} from 'react'
+
+
 
 function App() {
 
-  const {city, setCity} = usestate('');
+  const [inputValue, setInputValue] = useState('');
+  const [city, setCity] = useState('');
   const coordinates = useCoordinates(city);
-  const weather = useWeather(coordinates.lat, coordinates.lon);
+  const weather = useWeather(coordinates?.latitude, coordinates?.longitude);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCity(inputValue)
+    }, 500)
+
+    return (() => {
+      clearTimeout(timer)
+    }
+    )
+  }, [inputValue])
+
+  console.log(coordinates)
+  console.log(weather)
   return (
     <>
-    <SearchBar onchange={(e) => setCity(e.target.value)}/>
-    <WeatherCard />
+    <SearchBar onChange={(e) => setInputValue(e.target.value)}/>
+    <WeatherCard weather={weather} city={coordinates?.name}/>
     </>
-  )
+  ) 
+
 }
 
 export default App
