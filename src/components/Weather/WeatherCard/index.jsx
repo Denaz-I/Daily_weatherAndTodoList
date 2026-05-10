@@ -1,3 +1,5 @@
+import IconWeather from "./IconWeather";
+
 function WeatherCard({weather, city}) {
 
     function rightHour() {
@@ -7,14 +9,17 @@ function WeatherCard({weather, city}) {
         return hour;
     }
 
-    return <div className="flex flex-col items-center p-8 rounded-md w-60 sm:px-12 bg-gray-200 dark:text-gray-800">
+    return <div className="flex flex-col items-center p-4 rounded-md w-60 sm:px-12 bg-sky-900 m-4">
         <div className="text-center">
-            <h2 className="text-xl dark:text-black-600">{city}</h2>
-        </div>
+            <h2 className="text-left text-sm text-sky-200">{new Date().toLocaleDateString()}</h2>
+        </div>    
         <div className="text-center">
-            <h2 className="text-xl dark:text-black-600">{new Date().toLocaleDateString()}</h2>
+            <h2 className="text-xl text-sky-200">{city}</h2>
         </div>
-        <div className="mb-2 text-3xl font-semibold">{weather?.hourly?.temperature_2m[rightHour()]}°C
+        <div className="text-center ">
+            <IconWeather code={weather?.hourly?.weather_code[rightHour()]} />
+        </div>
+        <div className="mb-2 text-3xl font-semibold text-cyan-400">{weather?.hourly?.temperature_2m[rightHour()]}°C
         </div>
     </div>  
 }
