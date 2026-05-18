@@ -3,6 +3,7 @@ import WeatherCard from './components/Weather/WeatherCard'
 import SearchBar from './components/SearchBar'
 import useCoordinates from './hooks/useCoordinates'
 import useWeather from './hooks/useWeather'
+import useWeatherDaily from './hooks/useWeatherDaily'
 
 import {useState, useEffect} from 'react'
 
@@ -14,6 +15,7 @@ function App() {
   const [city, setCity] = useState('');
   const coordinates = useCoordinates(city);
   const weather = useWeather(coordinates?.latitude, coordinates?.longitude);
+  const weatherDaily = useWeatherDaily(coordinates?.latitude, coordinates?.longitude);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,13 +34,9 @@ function App() {
     <>
     <SearchBar onChange={(e) => setInputValue(e.target.value)}/>
     <div className="flex flex-row">
-      <WeatherCard weather={weather} city={coordinates?.name} index={0} selectedDay={selectedDay} onClick={() => setSelectedDay(0)} onMouseEnter/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={1} selectedDay={selectedDay} onClick={() => setSelectedDay(1)}/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={2} selectedDay={selectedDay} onClick={() => setSelectedDay(2)}/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={3} selectedDay={selectedDay} onClick={() => setSelectedDay(3)}/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={4} selectedDay={selectedDay} onClick={() => setSelectedDay(4)}/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={5} selectedDay={selectedDay} onClick={() => setSelectedDay(5)}/>
-      <WeatherCard weather={weather} city={coordinates?.name} index={6} selectedDay={selectedDay} onClick={() => setSelectedDay(6)}/>
+      {Array.from({length: 7}, (_, i) => (
+      <WeatherCard key={i} weather={weather} weatherDaily={weatherDaily} city={coordinates?.name} index={i} selectedDay={selectedDay} onClick={() => setSelectedDay(i)}/>
+      ))}
     </div>
     </>
   ) 

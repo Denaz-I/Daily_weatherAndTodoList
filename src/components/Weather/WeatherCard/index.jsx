@@ -1,6 +1,6 @@
 import IconWeather from "./IconWeather";
 
-function WeatherCard({weather, city, index, selectedDay, onClick}) {
+function WeatherCard({weather, weatherDaily, city, index, selectedDay, onClick}) {
 
     function rightHour() {
         const date = new Date();
@@ -17,25 +17,40 @@ function WeatherCard({weather, city, index, selectedDay, onClick}) {
     }
 
     if (index == selectedDay) {
-    return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-40 sm:px-12 bg-sky-900 m-2">
-        <div className="text-center">
-            <h2 className="text-left text-sm text-sky-200">{rightDay().toLocaleDateString("en-GB")}</h2>
-        </div>    
-        <div className="text-center">
-            <h2 className="text-xl text-sky-200">{city}</h2>
-        </div>
-        <div className="text-center ">
-            <IconWeather code={weather?.hourly?.weather_code[rightHour()]} />
-        </div>
-        <div className="mb-2 text-3xl font-semibold text-cyan-400">{weather?.hourly?.temperature_2m[rightHour()]}°C
-        </div>
-    </div>  
-    }
-
+        const temp = index == 0
+            ? weather?.hourly?.temperature_2m[rightHour()]
+            : weatherDaily?.daily?.temperature_2m_max[index];
+        const code = index == 0
+            ? weather?.hourly?.weather_code[rightHour()]
+            : weatherDaily?.daily?.weather_code[index];
+            return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-40 sm:px-12 bg-sky-900 m-2">
+                <div className="text-center">
+                    <h2 className="text-left text-sm text-sky-200">{rightDay().toLocaleDateString("en-GB")}</h2>
+                </div>    
+                <div className="text-center">
+                    <h2 className="text-xl text-sky-200">{city}</h2>
+                </div>
+                {index == 0 && 
+                    <div className="text-center">
+                        <h3 className="text-sm text-sky-200">{rightHour()}:{new Date().getMinutes()}</h3>
+                    </div>
+                }
+                <div className="text-center ">
+                    <IconWeather code={code} />
+                </div>
+                <div className="mb-2 text-3xl font-semibold text-cyan-400">{temp}°C
+                </div>
+            </div>   
+        }
     else {
-        return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-25 sm:px-12 bg-sky-900 m-2">
+        return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-20 h-30 hover:scale-105 transition-all duration-200 bg-sky-900 m-2">
         <div className="text-center">
-            <h2 className="text-left text-sm font-size- text-sky-200">{rightDay().toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })}</h2>
+            <h2 className="text-left text-sm text-sky-200">{rightDay().toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })}</h2>
+        </div>
+        <div className="text-center">
+            <IconWeather code={weatherDaily?.daily?.weather_code[index]} />
+        </div>
+        <div className="mb-2 text-xl font-semibold text-cyan-400">{weatherDaily?.daily?.temperature_2m_max[index]}°C
         </div>
     </div>  
     }
