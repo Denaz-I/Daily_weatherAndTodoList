@@ -1,20 +1,19 @@
 import IconWeather from "./IconWeather";
 
-function WeatherCard({weather, weatherDaily, city, index, selectedDay, onClick}) {
+function rightDay(index) {
+    const date = new Date();
+    date.setDate (date.getDate() + index);
 
-    function rightHour() {
+    return date;
+}
+function rightHour() {
         const date = new Date();
         const hour = date.getHours();
 
         return hour;
     }
 
-    function rightDay() {
-        const date = new Date();
-        date.setDate (date.getDate() + index);
-
-        return date;
-    }
+function WeatherCard({weather, weatherDaily, city, index, selectedDay, onClick}) {
 
     if (index == selectedDay) {
         const temp = index == 0
@@ -25,7 +24,7 @@ function WeatherCard({weather, weatherDaily, city, index, selectedDay, onClick})
             : weatherDaily?.daily?.weather_code[index];
             return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-40 sm:px-12 bg-sky-900 m-2">
                 <div className="text-center">
-                    <h2 className="text-left text-sm text-sky-200">{rightDay().toLocaleDateString("en-GB")}</h2>
+                    <h2 className="text-left text-sm text-sky-200">{rightDay(index).toLocaleDateString("en-GB")}</h2>
                 </div>    
                 <div className="text-center">
                     <h2 className="text-xl text-sky-200">{city}</h2>
@@ -45,7 +44,7 @@ function WeatherCard({weather, weatherDaily, city, index, selectedDay, onClick})
     else {
         return <div onClick={onClick} className="flex flex-col items-center p-4 rounded-md w-20 h-30 hover:scale-105 transition-all duration-200 bg-sky-900 m-2">
         <div className="text-center">
-            <h2 className="text-left text-sm text-sky-200">{rightDay().toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })}</h2>
+            <h2 className="text-left text-sm text-sky-200">{rightDay(index).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" })}</h2>
         </div>
         <div className="text-center">
             <IconWeather code={weatherDaily?.daily?.weather_code[index]} />

@@ -3,7 +3,6 @@ import WeatherCard from './components/Weather/WeatherCard'
 import SearchBar from './components/SearchBar'
 import useCoordinates from './hooks/useCoordinates'
 import useWeather from './hooks/useWeather'
-import useWeatherDaily from './hooks/useWeatherDaily'
 
 import {useState, useEffect} from 'react'
 
@@ -14,8 +13,8 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [city, setCity] = useState('');
   const coordinates = useCoordinates(city);
-  const weather = useWeather(coordinates?.latitude, coordinates?.longitude);
-  const weatherDaily = useWeatherDaily(coordinates?.latitude, coordinates?.longitude);
+  const weather = useWeather(coordinates?.latitude, coordinates?.longitude, "hourly=temperature_2m,weather_code");
+  const weatherDaily = useWeather(coordinates?.latitude, coordinates?.longitude, "daily=temperature_2m_max,weather_code");
 
   useEffect(() => {
     const timer = setTimeout(() => {
