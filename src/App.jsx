@@ -1,6 +1,7 @@
 import './App.css'
 import WeatherCard from './components/Weather/WeatherCard'
 import SearchBar from './components/SearchBar'
+import TasksBox from './components/TasksBox/Index'
 import useCoordinates from './hooks/useCoordinates'
 import useWeather from './hooks/useWeather'
 
@@ -27,15 +28,16 @@ function App() {
     )
   }, [inputValue])
 
-  console.log(coordinates)
-  console.log(weather)
+  // console.log(coordinates)
+  // console.log(weather)
   return (
     <>
     <SearchBar onChange={(e) => setInputValue(e.target.value)}/>
     <div className="flex flex-row">
       {Array.from({length: 7}, (_, i) => (
       <WeatherCard key={i} weather={weather} weatherDaily={weatherDaily} city={coordinates?.name} index={i} selectedDay={selectedDay} onClick={() => setSelectedDay(i)}/>
-      ))}
+    ))}
+    <TasksBox className />
     </div>
     </>
   ) 
